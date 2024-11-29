@@ -1,0 +1,55 @@
+body{
+    background-image: url(images/webp.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+}
+.box .form {
+    width: 50%;
+}
+.box h1 {
+    color: black;
+    font-weight: 500;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border-bottom: 4px solid pink;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+.box h2{
+    color:black;
+}
+.box .form .nhap{
+    font-size:16px;
+    margin-bottom: 5px;
+    display: inline-block;
+    color:black;
+}
+.box .form .nhap input{
+    width:100%;
+    width:400px;
+    padding:10px 0px;
+    outline: none;
+    border: 1px solid black;
+    font-size:16px;
+    letter-spacing: 1px;
+    color:black;
+    
+}
+.box .form .submit input{
+    outline: none;
+    border: none;
+    font-weight: 500;
+    background-color: pink;
+    padding:10px 20px;
+    margin-left:150px;
+    margin-top:20px;
+}

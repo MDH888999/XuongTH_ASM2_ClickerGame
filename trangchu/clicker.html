@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+
+<body>
+    <header>
+        <ul class="left">
+            <li><a href="trang.html">Trang chủ</a></li>
+            <li onclick="baoloi()"><a href="#">Báo lỗi</a></li>
+        </ul>
+        <ul class="right">
+            <li><a href="napthe.html" id="kimcuong">Nạp thẻ (0)</a></li>
+        </ul>
+    </header>
+    <center>
+        <div class="button">
+            <img src="images/money.jpg">
+            <br>
+            <button onclick="oncl()">Click me!</button>
+            <p id="money">Tiền: 0VNĐ</p>
+            <p id="mpc">Tiền mỗi click: 1</p>
+            <p id="mps">Tiền mỗi giây: 0</p>
+        </div>
+        <div class="ochuado">
+            <div class="vatpham">
+                <div>
+                    <img src="nole/bhieu.jpg" id="nole1" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaNole1()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongNole1">Nô lệ Hiếu Bùi: 0</p>
+                    <p id="giaNole1">Giá: 10VNĐ</p>
+                    <p>+1 Tiền mỗi giây!</p>
+                </div>
+            </div>
+
+            <div class="vatpham">
+                <div>
+                    <img src="tools/gaydanhcho.png" id="tool1" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaTool1()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongTool1">Gậy đánh chó: 0</p>
+                    <p id="giaTool1">Giá: 10VNĐ</p>
+                    <p>+1 Tiền mỗi click!</p>
+                </div>
+            </div>
+
+            <div class="vatpham">
+                <div>
+                    <img src="nole/trung.jpg" id="nole2" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaNole2()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongNole2">Nô lệ Trung Bùi: 0</p>
+                    <p id="giaNole2">Giá: 500VNĐ</p>
+                    <p>+10 Tiền mỗi giây!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="tools/buagodau.png" id="tool2" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaTool2()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongTool2">Búa gõ đầu: 0</p>
+                    <p id="giaTool2">Giá: 100VNĐ</p>
+                    <p>+10 Tiền mỗi click!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="nole/vinh.jpg" id="nole3" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaNole3()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongNole3">Nô lệ Vinh đần: 0</p>
+                    <p id="giaNole3">Giá: 5000VNĐ</p>
+                    <p>+100 Tiền mỗi giây!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="tools/kiemcun.png" id="tool3" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaTool3()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongTool3">Kiếm cùn: 0</p>
+                    <p id="giaTool3">Giá: 1000VNĐ</p>
+                    <p>+100 Tiền mỗi click!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="nole/huy.jpg" id="nole4" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaNole4()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongNole4">Nô lệ Huy: 0</p>
+                    <p id="giaNole4">Giá: 50000VNĐ</p>
+                    <p>+1000 Tiền mỗi giây!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="tools/riucuuhoa.jpg" id="tool4" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaTool4()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongTool4">Rìu cứu hỏa: 0</p>
+                    <p id="giaTool4">Giá: 10000VNĐ</p>
+                    <p>+1000 Tiền mỗi click!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="nole/khoa.jpg" id="nole5" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaNole5()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongNole5">Nô lệ Khoa: 0</p>
+                    <p id="giaNole5">Giá: 500000VNĐ</p>
+                    <p>+10000 Tiền mỗi giây!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="tools/kiemanhsang.png" id="tool5" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaTool5()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongTool5">Lightsaber: 0</p>
+                    <p id="giaTool5">Giá: 100000VNĐ</p>
+                    <p>+10000 Tiền mỗi click!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="nole/hao.jpg" id="nole6" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaNole6()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongNole6">Nô lệ Hào: 0</p>
+                    <p id="giaNole6">Giá: 5000000VNĐ</p>
+                    <p>+100000 Tiền mỗi giây!</p>
+                </div>
+            </div>
+            <div class="vatpham">
+                <div>
+                    <img src="tools/excalibur.png" id="tool6" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaTool6()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongTool6">Kiếm thánh Excalibur: 0</p>
+                    <p id="giaTool6">Giá: 1000000VNĐ</p>
+                    <p>+100000 Tiền mỗi click!</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="ochuado">
+            <div class="vatpham">
+                <div>
+                    <img src="nole/minh.jpg" id="chuno" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaChuno()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongChuno">Minh chủ nô: 0</p>
+                    <p id="giaChuno">Giá: 50KC</p>
+                    <p>x2 Tiền mỗi giây!</p>
+                </div>
+            </div>
+
+            <div class="vatpham">
+                <div>
+                    <img src="tools/damai.png" id="sptool" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaSptool()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="soluongSptool">Đá mài: 0</p>
+                    <p id="giaSptool">Giá: 50KC</p>
+                    <p>x2 Tiền mỗi click!</p>
+                </div>
+            </div>
+
+            <div class="vatpham">
+                <div>
+                    <img src="tools/exilir.png" id="thuocthan" class="anhvp">
+                    <div class="buyButton">
+                        <button onclick="muaThuoc()" class="buyButton">Mua</button>
+                    </div>
+                </div>
+                <div class="Text">
+                    <p id="suluongThuoc">Exilir: 0</p>
+                    <p id="giaThuoc">Giá: 400KC</p>
+                    <p>x2 Tiền mỗi giây và mỗi click!</p>
+                </div>
+            </div>
+        </div>
+    </center>
+    <script src="script/main.js"></script>
+</body>
+
+</html>

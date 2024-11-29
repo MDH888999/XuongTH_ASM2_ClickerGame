@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="dangnhap.css">
+</head>
+
+<body>
+    <div class="box">
+        <div class="form">
+            <h1>Gamer Hub</h1>
+            <form action="trang.html" id="frmdn" onsubmit="return dangNhap()">
+                <h2>Đăng nhập</h2>
+                <div class="nhap">
+                    <span>Tài khoản</span>
+                    <input type="text" name="" id="username">
+                </div>
+                <div class="nhap">
+                    <span>Mật khẩu</span>
+                    <input type="password" name="" id="password">
+                </div>
+                <div class="luudangnhap">
+                    <label><input type="checkbox">Lưu đăng nhập.</label>
+                </div>
+                <div class="submit">
+                    <input type="submit" value="Đăng nhập">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function dangNhap(){
+        var tk = localStorage.getItem('username');
+        var mk = localStorage.getItem('password');
+        var inputs = document.getElementById('frmdn').elements;
+        if (inputs.username.value == tk && inputs.password.value == mk){
+            alert('Đăng nhập thành công!');
+            return true;
+        }
+        else{
+            alert('Bạn đã nhập sai tài khoản hoặc mật khẩu!');
+            return false;
+        }
+    }
+    </script>
+</body>
+
+</html>

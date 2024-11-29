@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="napthe.css">
+</head>
+
+<body>
+
+    <header>
+        <ul>
+            <li><a href="trang.html">Trang chủ</a></li>
+            <li onclick="baoloi()"><a href="">Báo lỗi</a></li>
+        </ul>
+    </header>
+    <div class='form'>
+        <div class="box">
+            <form action="clicker.html" id="frmnt" onsubmit="return napThe()">
+                <div class="napthe" id="napthe">
+                    <label>Loại thẻ:</label>
+                    <br>
+                    <select class="form-control" id="loaiThe">
+                        <option>Viettel</option>
+                        <option>Mobifone</option>
+                        <option>Garena</option>
+                    </select>
+                </div>
+                <div class="napthe">
+                    <label>Mệnh giá:</label>
+                    <br>
+                    <select class="form-control" id="menhGia">
+                        <option>500.000VNĐ</option>
+                        <option>200.000VNĐ</option>
+                        <option>100.000VNĐ</option>
+                        <option>50.000VNĐ</option>
+                        <option>20.000VNĐ</option>
+                    </select>
+                </div>
+                <div class="napthe">
+                    <label>Mã thẻ:</label>
+                    <br>
+                    <input type="number" class="form-control" id="maThe">
+                </div>
+                <div class="napthe">
+                    <label>Số seri:</label>
+                    <br>
+                    <input type="number" class="form-control" id="seri">
+                </div>
+                <div class="napthe" class="button">
+                    <input type="submit" value="Nạp">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        function napThe() {
+            var diamond = 0;
+            var inputs = document.getElementById('frmnt').elements;
+            if (inputs.maThe.value == '') {
+                alert('Bạn chưa nhập mã thẻ!');
+                return false;
+            }
+            else if (inputs.seri.value == '') {
+                alert('Bạn chưa nhập số seri!');
+                return false;
+            }
+            alert('Bạn đã nạp thành công thẻ ' + inputs.loaiThe.value + ' mệnh giá ' + inputs.menhGia.value);
+            if (inputs.menhGia.value == '500.000VNĐ') {
+                diamond += 500;
+            }
+            else if (inputs.menhGia.value == '200.000VNĐ') {
+                diamond += 200;
+            }
+            else if (inputs.menhGia.value == '100.000VNĐ') {
+                diamond += 100;
+            }
+            else if (inputs.menhGia.value == '50.000VNĐ') {
+                diamond += 50;
+            }
+            else if (inputs.menhGia.value == '20.000VNĐ') {
+                diamond += 20;
+            }
+            localStorage.setItem('diamond', diamond.valueOf());
+            return true;
+        }
+        function baoloi() {
+            let baoloi = prompt("Mời nhập lỗi :");
+            alert("Bạn đã thành công báo lỗi : " + baoloi);
+        }
+    </script>
+</body>
+
+</html>

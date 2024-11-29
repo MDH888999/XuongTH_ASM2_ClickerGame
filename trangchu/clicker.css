@@ -1,0 +1,75 @@
+body{
+    background-image: url(images/webp.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+header>ul>li{
+    display:inline-block;
+}
+header {
+    background-color: black;
+    height:45px;
+    margin-top:-17px;
+    margin-left:-10px;
+    margin-right:-10px;
+    text-align: center;
+    line-height: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border:1px solid white;
+}
+header>ul>li>a{
+    padding:0px 35px;
+    font-size:20px;
+    color:white;
+    text-decoration: none;
+}
+.header>li{
+    list-style: none;
+}
+.left {
+    left: -30px;
+    color:white;
+    float:left;
+    position: absolute;
+}
+.right {
+    right:15px;
+    color:white;
+    float:right;
+    position: absolute;
+}
+.img {
+    float:left;
+    border:3px solid black;
+    border-radius: 10px;
+    margin-top:30px;
+    align-items: center;
+    text-align: center;
+}
+.img>img{
+    text-align: center;
+    width:500px;
+    height:500px;
+}
+.gioithieu {
+    margin-top:7px;
+    float:left;
+    margin-left: 400px;
+    font-size: larger;
+}
+.description {
+    float:left;
+}
+.description>.nut{
+    margin-left: 450px;
+    padding:10px 40px;
+}
+a:hover{
+    color:purple;
+}
+.nut {
+    width: 50px;
+    height:25px;
+    cursor: pointer;
+}
