@@ -1,108 +1,108 @@
 // Danh sách vật phẩm
 const items = [
     {
-        name: 'Nô lệ Hiếu Bùi',
-        type: 'nole',
-        img: 'nole/nft01.avif',
+        name: 'NFT 01',
+        type: 'nftmps',
+        img: 'nftimg/nft01.avif',
         gia: 10,
         increment: 1,
         unit: 'Tiền mỗi giây',
         quantity: 0
     },
     {
-        name: 'Gậy đánh chó',
-        type: 'tool',
-        img: 'nole/nft02.jpg',
+        name: 'NFT 02',
+        type: 'nftmpc',
+        img: 'nftimg/nft02.jpg',
         gia: 10,
         increment: 1,
         unit: 'Tiền mỗi click',
         quantity: 0
     },
     {
-        name: 'Nô lệ Trung Bùi',
-        type: 'nole',
-        img: 'nole/nft03.avif',
+        name: 'NFT 03',
+        type: 'nftmps',
+        img: 'nftimg/nft03.jpg',
         gia: 500,
         increment: 10,
         unit: 'Tiền mỗi giây',
         quantity: 0
     },
     {
-        name: 'Búa gõ đầu',
-        type: 'tool',
-        img: 'nole/nft04.jpg',
+        name: 'NFT 04',
+        type: 'nftmpc',
+        img: 'nftimg/nft04.avif',
         gia: 100,
         increment: 10,
         unit: 'Tiền mỗi click',
         quantity: 0
     },
     {
-        name: 'Nô lệ Vinh đần',
-        type: 'nole',
-        img: 'nole/nft05.jpg',
+        name: 'NFT 05',
+        type: 'nftmps',
+        img: 'nftimg/nft05.avif',
         gia: 5000,
         increment: 100,
         unit: 'Tiền mỗi giây',
         quantity: 0
     },
     {
-        name: 'Kiếm cùn',
-        type: 'tool',
-        img: 'nole/nft06.jpg',
+        name: 'NFT 06',
+        type: 'nftmpc',
+        img: 'nftimg/nft06.avif',
         gia: 1000,
         increment: 100,
         unit: 'Tiền mỗi click',
         quantity: 0
     },
     {
-        name: 'Nô lệ Huy',
-        type: 'nole',
-        img: 'nole/nft07.jpg',
+        name: 'NFT 07',
+        type: 'nftmps',
+        img: 'nftimg/nft07.avif',
         gia: 50000,
         increment: 1000,
         unit: 'Tiền mỗi giây',
         quantity: 0
     },
     {
-        name: 'Rìu cứu hỏa',
-        type: 'tool',
-        img: 'nole/nft08.avif',
+        name: 'NFT 08',
+        type: 'nftmpc',
+        img: 'nftimg/nft08.avif',
         gia: 10000,
         increment: 1000,
         unit: 'Tiền mỗi click',
         quantity: 0
     },
     {
-        name: 'Nô lệ Khoa',
-        type: 'nole',
-        img: 'nole/nft09.jpg',
+        name: 'NFT 09',
+        type: 'nftmps',
+        img: 'nftimg/nft09.avif',
         gia: 500000,
         increment: 10000,
         unit: 'Tiền mỗi giây',
         quantity: 0
     },
     {
-        name: 'Lightsaber',
-        type: 'tool',
-        img: 'nole/nft10.jpg',
+        name: 'NFT 10',
+        type: 'nftmpc',
+        img: 'nftimg/nft10.avif',
         gia: 100000,
         increment: 10000,
         unit: 'Tiền mỗi click',
         quantity: 0
     },
     {
-        name: 'Nô lệ Hào',
-        type: 'nole',
-        img: 'nole/nft11.jpg',
+        name: 'NFT 11',
+        type: 'nftmps',
+        img: 'nftimg/nft11.avif',
         gia: 5000000,
         increment: 100000,
         unit: 'Tiền mỗi giây',
         quantity: 0
     },
     {
-        name: 'Kiếm thánh Excalibur',
-        type: 'tool',
-        img: 'nole/nft12.jpg',
+        name: 'NFT 12',
+        type: 'nftmpc',
+        img: 'nftimg/nft12.avif',
         gia: 1000000,
         increment: 100000,
         unit: 'Tiền mỗi click',
@@ -112,27 +112,27 @@ const items = [
 
 const rareitems = [
     {
-        name: 'Thánh dược Elixir',
-        type: 'elixir',
-        img: 'tools/exilir.png',
+        name: 'Rare NFT 01',
+        type: 'rareNFTmps',
+        img: 'nftimg/rarenft01.avif',
         increment: 2,
         unit: 'Tiền mỗi giây',
         percent: 50,
         quantity: 0
     },
     {
-        name: 'Thiên thạch',
-        type: 'grindstone',
-        img: 'tools/damai.png',
+        name: 'Rare NFT 02',
+        type: 'rareNFTmpc',
+        img: 'nftimg/rarenft02.avif',
         increment: 2,
         unit: 'Tiền mỗi click',
         percent: 50,
         quantity: 0
     }
 ];
-let hasElixir = false; // Kiểm tra nếu Elixir đã có trong rương
-let hasGrindstone = false; // Kiểm tra nếu Grindstone đã có trong rương
-let money = 500;
+let hasRare01 = false; // Kiểm tra nếu rareNFTmps đã có trong rương
+let hasRare02 = false; // Kiểm tra nếu rareNFTmpc đã có trong rương
+let money = 0;
 let mpsMultiplier = 1;
 let mpcMultiplier = 1;
 let moneyPerClick = 1 * mpcMultiplier;
@@ -190,8 +190,8 @@ function buyItem(index) {
         money -= item.gia;
         item.quantity += 1;
         item.gia = Math.floor(item.gia * 1.5); // Tăng giá sau mỗi lần mua
-        if (item.type === 'nole') moneyPerSecond += item.increment;
-        if (item.type === 'tool') moneyPerClick += item.increment;
+        if (item.type === 'nftmps') moneyPerSecond += item.increment;
+        if (item.type === 'nftmpc') moneyPerClick += item.increment;
 
         // Cập nhật giao diện
         document.getElementById(
@@ -211,7 +211,7 @@ function openChest() {
     // Kiểm tra nếu người chơi có đủ tiền và cả 2 vật phẩm chưa có
     if (money >= 500) {
         // Giả sử mỗi lần mở rương tốn 500 VNĐ
-        if (hasElixir && hasGrindstone) {
+        if (hasRare01 && hasRare02) {
             alert('Rương đã chứa đủ vật phẩm, không thể mở nữa!');
             return; // Nếu cả 2 vật phẩm đã có, không thể mở rương
         }
@@ -223,18 +223,18 @@ function openChest() {
         const selectedItem = getRandomItem();
 
         // Cập nhật trạng thái vật phẩm đã có trong rương
-        if (selectedItem.name === 'Thánh dược Elixir') {
-            hasElixir = true;
+        if (selectedItem.name === 'Rare NFT 01') {
+            hasRare01 = true;
             rareitems[0].quantity += 1;
             document.getElementById(
-                `soluongelixir0`
-            ).textContent = `Thánh dược Elixir: ${rareitems[0].quantity}`;
-        } else if (selectedItem.name === 'Thiên thạch') {
-            hasGrindstone = true;
+                `soluongrareNFTmps0`
+            ).textContent = `Rare NFT 01: ${rareitems[0].quantity}`;
+        } else if (selectedItem.name === 'Rare NFT 02') {
+            hasRare02 = true;
             rareitems[1].quantity += 1;
             document.getElementById(
-                `soluonggrindstone1`
-            ).textContent = `Thiên thạch: ${rareitems[1].quantity}`;
+                `soluongrareNFTmpc1`
+            ).textContent = `Rare NFT 02: ${rareitems[1].quantity}`;
         }
 
         // Cập nhật kết quả vật phẩm nhận được
@@ -251,32 +251,45 @@ function openChest() {
 
 //Hàm random item
 function getRandomItem() {
-    // Nếu đã có Elixir, chỉ chọn Thiên thạch
-    if (hasElixir) {
-        return rareitems.find((item) => item.name === 'Thiên thạch');
+    // Nếu đã có rareNFTmps, chỉ chọn rareNFT02
+    if (hasRare01) {
+        return rareitems.find((item) => item.name === 'Rare NFT 02');
     }
-    // Nếu đã có Thiên thạch, chỉ chọn Elixir
-    else if (hasGrindstone) {
-        return rareitems.find((item) => item.name === 'Thánh dược Elixir');
+    // Nếu đã có rareNFTmpc, chỉ chọn rareNFT01
+    else if (hasRare02) {
+        return rareitems.find((item) => item.name === 'Rare NFT 01');
     }
     // Nếu chưa có vật phẩm nào, chọn ngẫu nhiên với tỉ lệ 50% cho mỗi vật phẩm
     else {
-        const random = Math.random();
-        if (random < 0.5) {
-            return rareitems.find((item) => item.name === 'Thánh dược Elixir');
-        } else {
-            return rareitems.find((item) => item.name === 'Thiên thạch');
+        const randomValue = Math.random() * 100; // Tạo số ngẫu nhiên từ 0-100
+        let cumulativePercent = 0; // Bắt đầu tích lũy tỷ lệ
+
+        for (const item of rareitems) {
+            cumulativePercent += item.percent; // Cộng dồn tỷ lệ của vật phẩm
+            if (randomValue <= cumulativePercent) {
+                return item; // Nếu randomValue nhỏ hơn tỷ lệ tích lũy, chọn vật phẩm
+            }
         }
+        return null; // Trường hợp không có vật phẩm phù hợp
     }
 }
 
 // Hàm áp dụng tác dụng của vật phẩm
 function applyItemEffect(selectedItem) {
-    if (selectedItem.type === 'elixir') {
+    if (selectedItem.type === 'rareNFTmps') {
         mpsMultiplier = mpsMultiplier * 2;
-    } else if (selectedItem.type === 'grindstone') {
+    } else if (selectedItem.type === 'rareNFTmpc') {
         mpcMultiplier = mpcMultiplier * 2;
     }
+}
+
+//Hàm để xem tỉ lệ của vật phẩm
+function chanceView() {
+    let message = "Tỉ lệ rơi vật phẩm trong rương:\n";
+    rareitems.forEach(item => {
+        message += `- ${item.name}: ${item.percent}%\n`;
+    });
+    alert(message);
 }
 
 // Click để nhận tiền
@@ -294,12 +307,10 @@ setInterval(() => {
 // Cập nhật hiển thị
 function updateDisplay() {
     document.getElementById('money').textContent = `Tiền: ${money} VNĐ`;
-    document.getElementById('mpc').textContent = `Tiền mỗi click: ${
-        moneyPerClick * mpcMultiplier
-    }`;
-    document.getElementById('mps').textContent = `Tiền mỗi giây: ${
-        moneyPerSecond * mpsMultiplier
-    }`;
+    document.getElementById('mpc').textContent = `Tiền mỗi click: ${moneyPerClick * mpcMultiplier
+        }`;
+    document.getElementById('mps').textContent = `Tiền mỗi giây: ${moneyPerSecond * mpsMultiplier
+        }`;
 }
 
 // Khởi tạo
