@@ -116,7 +116,7 @@ const rareitems = [
         type: 'rareNFTmps',
         img: 'nftimg/rarenft01.avif',
         increment: 2,
-        value: 0.001,
+        value: 1,
         unit: 'Tiền mỗi giây',
         percent: 50,
         quantity: 0
@@ -126,7 +126,7 @@ const rareitems = [
         type: 'rareNFTmpc',
         img: 'nftimg/rarenft02.avif',
         increment: 2,
-        value: 0.001,
+        value: 1,
         unit: 'Tiền mỗi click',
         percent: 50,
         quantity: 0
@@ -319,6 +319,41 @@ function updateDisplay() {
 }
 // Kết nối tới mạng Solana
 const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+// Keypair cho ví nhận và gửi token (Reward Wallet)
+// Manually decode a Base58 string to a Uint8Array
+function decodeBase58(base58String) {
+    const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+    const base = 58;
+    let num = BigInt(0);
+    
+    // Reverse the Base58 string and decode
+    for (let i = 0; i < base58String.length; i++) {
+        const char = base58String[i];
+        num = num * BigInt(base) + BigInt(alphabet.indexOf(char));
+    }
+
+    // Convert BigInt to Uint8Array
+    const hexString = num.toString(16).padStart(64, '0');
+    const uint8Array = new Uint8Array(hexString.length / 2);
+
+    for (let i = 0; i < hexString.length; i += 2) {
+        uint8Array[i / 2] = parseInt(hexString.substr(i, 2), 16);
+    }
+
+    return uint8Array;
+}
+
+// Example of how to use the above function to decode Base58 private key
+const base58PrivateKey = "5X4as6gTmE94KNdKcjaVwWqDyhZfWYJ7g3WhcPrtEtJrxDNpQchaHZ4kfefJHSSBC4S7C1ovbtfTaKb6TvH3iaQe"; // Replace this with your actual private key
+const decodedPrivateKey = decodeBase58(base58PrivateKey);
+
+// Generate the Keypair from decoded private key
+const keypair = solanaWeb3.Keypair.fromSecretKey(decodedPrivateKey);
+const rewardWallet = solanaWeb3.Keypair.fromSecretKey(
+    Uint8Array.from([225, 253, 252, 238, 132, 91, 179, 65, 216, 206, 49, 66, 254, 130, 60, 4, 177, 245, 64, 51, 32, 53, 228, 160, 36, 38, 213, 184, 45, 173, 119, 134, 227, 124, 199, 121, 185, 122, 61, 131, 178, 241, 158, 67, 155, 185, 1, 212, 118, 238, 118, 87, 82, 230, 147, 101, 23, 205, 86, 246, 171, 16, 224, 199
+    ])
+);
+
 // Kết nối với ví Phantom
 async function connectWallet() {
     if (window.solana && window.solana.isPhantom) {
@@ -346,62 +381,62 @@ function isBase58(string) {
     const base58Regex = /^[1-9A-HJ-NP-Za-km-z]+$/; // Regex cho Base58
     return base58Regex.test(string);
 }
-// Hàm gửi token
-async function sendToken(userPublicKey, amount) {
+// Hàm gửi token từ Reward Wallet
+async function sendReward(userPublicKey, amount) {
     try {
         // Kiểm tra Base58
         if (!isBase58(userPublicKey)) {
             console.error("Public key không hợp lệ:", userPublicKey);
-            throw new Error("Public key không hợp lệ. Hãy kết nối lại ví.");
+            throw new Error("Public key không hợp lệ.");
         }
 
         const toPublicKey = new solanaWeb3.PublicKey(userPublicKey);
-        console.log("Public key hợp lệ:", toPublicKey.toString());
+        console.log("Sending reward to:", toPublicKey.toString());
 
-        // Ví gửi token (thay thế bằng ví thật trong môi trường production)
-        const fromWallet = solanaWeb3.Keypair.generate();
+        // Gửi token từ rewardWallet
         const transaction = new solanaWeb3.Transaction().add(
             solanaWeb3.SystemProgram.transfer({
-                fromPubkey: fromWallet.publicKey,
+                fromPubkey: rewardWallet.publicKey,
                 toPubkey: toPublicKey,
-                lamports: amount * solanaWeb3.LAMPORTS_PER_SOL,  // Chuyển đổi token sang lamports
+                lamports: amount * solanaWeb3.LAMPORTS_PER_SOL, // Chuyển đổi sang lamports
             })
         );
 
-        const signature = await solanaWeb3.sendAndConfirmTransaction(connection, transaction, [fromWallet]);
-        console.log("Transaction Signature:", signature);
+        const signature = await solanaWeb3.sendAndConfirmTransaction(connection, transaction, [rewardWallet]);
+        console.log("Reward Transaction Signature:", signature);
     } catch (error) {
         console.error("Gửi token thất bại:", error);
         throw error;
     }
 }
-
-
-// Hàm đổi vật phẩm Rare Item thành Token
 async function exchangeRareItem(index) {
     const rareItem = rareitems[index];
-    const userPublicKey = window.solana?.publicKey?.toString();
+    try {
+        const userPublicKeyString = window.solana?.publicKey?.toString();
 
-    if (!userPublicKey || userPublicKey.trim() === "" || !isBase58(userPublicKey)) {
-        console.error("Public key không hợp lệ:", userPublicKey);
-        alert("Không thể tìm thấy hoặc public key không hợp lệ. Hãy kết nối ví trước.");
-        return;
-    }
+        // Validate userPublicKeyString
+        if (!userPublicKeyString || userPublicKeyString.trim() === "" || !isBase58(userPublicKeyString)) {
+            console.error("Public key không hợp lệ:", userPublicKeyString);
+            alert("Không thể tìm thấy hoặc public key không hợp lệ. Hãy kết nối ví trước.");
+            return;
+        }
 
-    if (rareItem.quantity > 0) {
-        try {
-            const tokenAmount = rareItem.value; // Số lượng token đổi
-            await sendToken(userPublicKey, tokenAmount);
-            rareItem.quantity--; // Giảm số lượng rare item
+        if (rareItem.quantity > 0) {
+            const tokenAmount = rareItem.value; // Number of tokens to transfer
+            await sendReward(userPublicKeyString, tokenAmount);
+            rareItem.quantity--;
             document.getElementById(`soluong${rareItem.type}${index}`).textContent = `${rareItem.name}: ${rareItem.quantity}`;
             alert(`Đã đổi thành công ${tokenAmount} token.`);
-        } catch (error) {
-            console.error("Đổi token thất bại:", error);
+        } else {
+            alert("Bạn không có vật phẩm này.");
         }
-    } else {
-        alert("Bạn không có vật phẩm này.");
+    } catch (error) {
+        console.error("Đổi token thất bại:", error);
     }
 }
+
+
+
 
 
 
