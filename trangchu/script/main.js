@@ -1,298 +1,413 @@
-// gia tri money ne
-var kimcuong = 0;
-kimcuong = localStorage.getItem('diamond');
-document.getElementById('kimcuong').innerText = 'Nạp thẻ (' + kimcuong + ')';
-var money = 0;
-var mps = 0;
-var mpc = 1;
-var boostmps = 1;
-var boostmpc = 1;
-// so luong vat pham ne
-var nole1 = 0;
-var tool1 = 0;
-var nole2 = 0;
-var tool2 = 0;
-var nole3 = 0;
-var tool3 = 0;
-var nole4 = 0;
-var tool4 = 0;
-var nole5 = 0;
-var tool5 = 0;
-var nole6 = 0;
-var tool6 = 0;
-// gia vat pham ne
-var gianole1 = 10;
-var giatool1 = 10;
-var gianole2 = 500;
-var giatool2 = 100;
-var gianole3 = 5000;
-var giatool3 = 1000;
-var gianole4 = 50000;
-var giatool4 = 10000;
-var gianole5 = 500000;
-var giatool5 = 100000;
-var gianole6 = 5000000;
-var giatool6 = 1000000;
-//vp bang kc
-var chuno = 0;
-var giachuno = 50;
-var sptool = 0;
-var giasptool = 50;
-var thuoctien = 0;
-var giathuoctien = 400;
-function oncl() {
-    money += mpc;
-    document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
+// Danh sách vật phẩm
+const items = [
+    {
+        name: 'NFT 01',
+        type: 'nftmps',
+        img: 'nftimg/nft01.avif',
+        gia: 10,
+        increment: 1,
+        unit: 'Tiền mỗi giây',
+        quantity: 0
+    },
+    {
+        name: 'NFT 02',
+        type: 'nftmpc',
+        img: 'nftimg/nft02.jpg',
+        gia: 10,
+        increment: 1,
+        unit: 'Tiền mỗi click',
+        quantity: 0
+    },
+    {
+        name: 'NFT 03',
+        type: 'nftmps',
+        img: 'nftimg/nft03.jpg',
+        gia: 500,
+        increment: 5,
+        unit: 'Tiền mỗi giây',
+        quantity: 0
+    },
+    {
+        name: 'NFT 04',
+        type: 'nftmpc',
+        img: 'nftimg/nft04.avif',
+        gia: 100,
+        increment: 5,
+        unit: 'Tiền mỗi click',
+        quantity: 0
+    },
+    {
+        name: 'NFT 05',
+        type: 'nftmps',
+        img: 'nftimg/nft05.avif',
+        gia: 5000,
+        increment: 30,
+        unit: 'Tiền mỗi giây',
+        quantity: 0
+    },
+    {
+        name: 'NFT 06',
+        type: 'nftmpc',
+        img: 'nftimg/nft06.avif',
+        gia: 1000,
+        increment: 30,
+        unit: 'Tiền mỗi click',
+        quantity: 0
+    },
+    {
+        name: 'NFT 07',
+        type: 'nftmps',
+        img: 'nftimg/nft07.avif',
+        gia: 50000,
+        increment: 100,
+        unit: 'Tiền mỗi giây',
+        quantity: 0
+    },
+    {
+        name: 'NFT 08',
+        type: 'nftmpc',
+        img: 'nftimg/nft08.avif',
+        gia: 10000,
+        increment: 100,
+        unit: 'Tiền mỗi click',
+        quantity: 0
+    },
+    {
+        name: 'NFT 09',
+        type: 'nftmps',
+        img: 'nftimg/nft09.avif',
+        gia: 500000,
+        increment: 500,
+        unit: 'Tiền mỗi giây',
+        quantity: 0
+    },
+    {
+        name: 'NFT 10',
+        type: 'nftmpc',
+        img: 'nftimg/nft10.avif',
+        gia: 100000,
+        increment: 500,
+        unit: 'Tiền mỗi click',
+        quantity: 0
+    },
+    {
+        name: 'NFT 11',
+        type: 'nftmps',
+        img: 'nftimg/nft11.avif',
+        gia: 5000000,
+        increment: 1000,
+        unit: 'Tiền mỗi giây',
+        quantity: 0
+    },
+    {
+        name: 'NFT 12',
+        type: 'nftmpc',
+        img: 'nftimg/nft12.avif',
+        gia: 1000000,
+        increment: 1000,
+        unit: 'Tiền mỗi click',
+        quantity: 0
+    }
+];
+
+const rareitems = [
+    {
+        name: 'Rare NFT 01',
+        type: 'rareNFTmps',
+        img: 'nftimg/rarenft01.avif',
+        increment: 2,
+        value: 0.001,
+        unit: 'Tiền mỗi giây',
+        percent: 50,
+        quantity: 0
+    },
+    {
+        name: 'Rare NFT 02',
+        type: 'rareNFTmpc',
+        img: 'nftimg/rarenft02.avif',
+        increment: 2,
+        value: 0.001,
+        unit: 'Tiền mỗi click',
+        percent: 50,
+        quantity: 0
+    }
+];
+let hasRare01 = false; // Kiểm tra nếu rareNFTmps đã có trong rương
+let hasRare02 = false; // Kiểm tra nếu rareNFTmpc đã có trong rương
+let money = 500;
+let mpsMultiplier = 1;
+let mpcMultiplier = 1;
+let moneyPerClick = 1 * mpcMultiplier;
+let moneyPerSecond = 0;
+
+// Render các vật phẩm
+function renderItems() {
+    const container = document.getElementById('itemsContainer'); // Lấy container chính
+
+    items.forEach((item, index) => {
+        const itemHTML = document.createElement('div'); // Tạo một phần tử div mới
+        itemHTML.classList.add('vatpham'); // Thêm class vatpham
+
+        itemHTML.innerHTML = `
+        <div>
+            <img src="${item.img}" class="anhvp" alt="${item.name}">
+            <div class="buyButton">
+                <button onclick="buyItem(${index})" class="buyButton">Mua</button>
+            </div>
+        </div>
+        <div class="Text">
+            <p id="soluong${item.type}${index}">${item.name}: 0</p>
+            <p id="gia${item.type}${index}">Giá: ${item.gia} VNĐ</p>
+            <p>+${item.increment} ${item.unit}!</p>
+        </div>
+    `;
+
+        container.appendChild(itemHTML); // Thêm phần tử vào container
+    });
 }
-setInterval(function () {
-    money += mps;//add them tien moi 1s ne
-    document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
+function renderRareItems() {
+    const container = document.getElementById('rareitemsContainer'); // Lấy container chính
+
+    rareitems.forEach((rareitem, index) => {
+        const itemHTML = document.createElement('div'); // Tạo một phần tử div mới
+        itemHTML.classList.add('vatpham'); // Thêm class vatpham
+
+        itemHTML.innerHTML = `
+        <div>
+            <img src="${rareitem.img}" class="anhvp" alt="${rareitem.name}">
+        </div>
+            <div class="exchangeButton">
+                <button onclick="exchangeRareItem(${index})" class="buyButton">Đổi token</button>
+            </div>
+        <div class="Text">
+            <p id="soluong${rareitem.type}${index}">${rareitem.name}: 0</p>
+                        <p>x${rareitem.increment} ${rareitem.unit}!</p>
+        </div>
+    `;
+
+        container.appendChild(itemHTML); // Thêm phần tử vào container
+    });
+}
+// Mua vật phẩm
+function buyItem(index) {
+    const item = items[index];
+    if (money >= item.gia) {
+        money -= item.gia;
+        item.quantity += 1;
+        item.gia = Math.floor(item.gia * 1.1); // Tăng giá sau mỗi lần mua
+        if (item.type === 'nftmps') moneyPerSecond += item.increment;
+        if (item.type === 'nftmpc') moneyPerClick += item.increment;
+
+        // Cập nhật giao diện
+        document.getElementById(
+            `soluong${item.type}${index}`
+        ).textContent = `${item.name}: ${item.quantity}`;
+        document.getElementById(
+            `gia${item.type}${index}`
+        ).textContent = `Giá: ${item.gia} VNĐ`;
+        updateDisplay();
+    } else {
+        alert('Không đủ tiền!');
+    }
+}
+
+// Mở rương
+function openChest() {
+    // Kiểm tra nếu người chơi có đủ tiền và cả 2 vật phẩm chưa có
+    if (money >= 500) {
+        // Giả sử mỗi lần mở rương tốn 500 VNĐ
+        if (hasRare01 && hasRare02) {
+            alert('Rương đã chứa đủ vật phẩm, không thể mở nữa!');
+            return; // Nếu cả 2 vật phẩm đã có, không thể mở rương
+        }
+
+        money -= 500; // Trừ tiền khi mở rương
+        updateDisplay(); // Cập nhật giao diện
+
+        // Chọn ngẫu nhiên vật phẩm, nhưng nếu đã có 1 vật phẩm, chỉ ra vật phẩm còn lại
+        const selectedItem = getRandomItem();
+
+        // Cập nhật trạng thái vật phẩm đã có trong rương
+        if (selectedItem.name === 'Rare NFT 01') {
+            hasRare01 = true;
+            rareitems[0].quantity += 1;
+            document.getElementById(
+                `soluongrareNFTmps0`
+            ).textContent = `Rare NFT 01: ${rareitems[0].quantity}`;
+        } else if (selectedItem.name === 'Rare NFT 02') {
+            hasRare02 = true;
+            rareitems[1].quantity += 1;
+            document.getElementById(
+                `soluongrareNFTmpc1`
+            ).textContent = `Rare NFT 02: ${rareitems[1].quantity}`;
+        }
+
+        // Cập nhật kết quả vật phẩm nhận được
+        alert(`Bạn nhận được: ${selectedItem.name}`);
+
+        // Áp dụng tác dụng vật phẩm
+        applyItemEffect(selectedItem);
+
+        updateDisplay(); // Cập nhật lại giao diện
+    } else {
+        alert('Không đủ tiền để mở rương!');
+    }
+}
+
+//Hàm random item
+function getRandomItem() {
+    // Nếu đã có rareNFTmps, chỉ chọn rareNFT02
+    if (hasRare01) {
+        return rareitems.find((item) => item.name === 'Rare NFT 02');
+    }
+    // Nếu đã có rareNFTmpc, chỉ chọn rareNFT01
+    else if (hasRare02) {
+        return rareitems.find((item) => item.name === 'Rare NFT 01');
+    }
+    // Nếu chưa có vật phẩm nào, chọn ngẫu nhiên với tỉ lệ 50% cho mỗi vật phẩm
+    else {
+        const randomValue = Math.random() * 100; // Tạo số ngẫu nhiên từ 0-100
+        let cumulativePercent = 0; // Bắt đầu tích lũy tỷ lệ
+
+        for (const item of rareitems) {
+            cumulativePercent += item.percent; // Cộng dồn tỷ lệ của vật phẩm
+            if (randomValue <= cumulativePercent) {
+                return item; // Nếu randomValue nhỏ hơn tỷ lệ tích lũy, chọn vật phẩm
+            }
+        }
+        return null; // Trường hợp không có vật phẩm phù hợp
+    }
+}
+
+// Hàm áp dụng tác dụng của vật phẩm
+function applyItemEffect(selectedItem) {
+    if (selectedItem.type === 'rareNFTmps') {
+        mpsMultiplier = mpsMultiplier * 2;
+    } else if (selectedItem.type === 'rareNFTmpc') {
+        mpcMultiplier = mpcMultiplier * 2;
+    }
+}
+
+//Hàm để xem tỉ lệ của vật phẩm
+function chanceView() {
+    let message = "Tỉ lệ rơi vật phẩm trong rương:\n";
+    rareitems.forEach(item => {
+        message += `- ${item.name}: ${item.percent}%\n`;
+    });
+    alert(message);
+}
+
+// Click để nhận tiền
+document.getElementById('clickMeButton').addEventListener('click', () => {
+    money += moneyPerClick * mpcMultiplier;
+    updateDisplay();
+});
+
+// Tăng tiền mỗi giây
+setInterval(() => {
+    money += moneyPerSecond * mpsMultiplier;
+    updateDisplay();
 }, 1000);
 
-function muaNole1() {
-    if (money >= gianole1) {
-        money -= gianole1;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        nole1++;
-        document.getElementById('soluongNole1').innerText = 'Nô lệ Hiếu Bùi: ' + nole1;
-        gianole1 *= 2;
-        document.getElementById('giaNole1').innerText = "Giá: " + gianole1 + 'VNĐ';
-        mps += 1 * boostmps;
-        document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
+// Cập nhật hiển thị
+function updateDisplay() {
+    document.getElementById('money').textContent = `Tiền: ${money} VNĐ`;
+    document.getElementById('mpc').textContent = `Tiền mỗi click: ${moneyPerClick * mpcMultiplier
+        }`;
+    document.getElementById('mps').textContent = `Tiền mỗi giây: ${moneyPerSecond * mpsMultiplier
+        }`;
+}
+// Kết nối tới mạng Solana
+const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('devnet'), 'confirmed');
+// Kết nối với ví Phantom
+async function connectWallet() {
+    if (window.solana && window.solana.isPhantom) {
+        try {
+            const response = await window.solana.connect();
+            const publicKey = response.publicKey?.toString();
+
+            if (!publicKey || !isBase58(publicKey)) {
+                throw new Error("Public key từ ví không hợp lệ.");
+            }
+
+            console.log("Connected with public key:", publicKey);
+            document.getElementById("status").textContent = "Đã kết nối";
+        } catch (error) {
+            console.error("Kết nối thất bại:", error);
+            alert("Kết nối thất bại. Hãy thử lại.");
+        }
+    } else {
+        alert("Hãy cài đặt ví Phantom để tiếp tục.");
+        window.open("https://phantom.app/", "_blank");
     }
 }
-function muaTool1() {
-    if (money >= giatool1) {
-        money -= giatool1;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        tool1++;
-        document.getElementById('soluongTool1').innerText = 'Gậy đánh chó: ' + tool1;
-        giatool1 *= 2;
-        document.getElementById('giaTool1').innerText = 'Giá: ' + giatool1 + 'VNĐ';
-        mpc += 1 * boostmpc;
-        document.getElementById('mpc').innerText = 'Tiền mỗi click: ' + mpc;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
+// Hàm kiểm tra Base58 hợp lệ
+function isBase58(string) {
+    const base58Regex = /^[1-9A-HJ-NP-Za-km-z]+$/; // Regex cho Base58
+    return base58Regex.test(string);
 }
-function muaNole2() {
-    if (money >= gianole2) {
-        money -= gianole2;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        nole2++;
-        document.getElementById('soluongNole2').innerText = 'Nô lệ Trung Bùi: ' + nole2;
-        gianole2 *= 2;
-        document.getElementById('giaNole2').innerText = "Giá: " + gianole2 + 'VNĐ';
-        mps += 10 * boostmps;
-        document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaTool2() {
-    if (money >= giatool2) {
-        money -= giatool2;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        tool2++;
-        document.getElementById('soluongTool2').innerText = 'Gậy đánh chó: ' + tool2;
-        giatool2 *= 2;
-        document.getElementById('giaTool2').innerText = 'Giá: ' + giatool2 + 'VNĐ';
-        mpc += 10 * boostmpc;
-        document.getElementById('mpc').innerText = 'Tiền mỗi click: ' + mpc;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaNole3() {
-    if (money >= gianole3) {
-        money -= gianole3;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        nole3++;
-        document.getElementById('soluongNole3').innerText = 'Nô lệ Vinh đần: ' + nole3;
-        gianole3 *= 2;
-        document.getElementById('giaNole3').innerText = "Giá: " + gianole3 + 'VNĐ';
-        mps += 100 * boostmps;
-        document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaTool3() {
-    if (money >= giatool3) {
-        money -= giatool3;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        tool3++;
-        document.getElementById('soluongTool3').innerText = 'Kiếm cùn: ' + tool3;
-        giatool3 *= 2;
-        document.getElementById('giaTool3').innerText = 'Giá: ' + giatool3 + 'VNĐ';
-        mpc += 100 * boostmpc;
-        document.getElementById('mpc').innerText = 'Tiền mỗi click: ' + mpc;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaNole4() {
-    if (money >= gianole4) {
-        money -= gianole4;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        nole4++;
-        document.getElementById('soluongNole4').innerText = 'Nô lệ Huy: ' + nole4;
-        gianole4 *= 2;
-        document.getElementById('giaNole4').innerText = "Giá: " + gianole4 + 'VNĐ';
-        mps += 1000 * boostmps;
-        document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaTool4() {
-    if (money >= giatool4) {
-        money -= giatool4;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        tool4++;
-        document.getElementById('soluongTool4').innerText = 'Rìu cứu hỏa: ' + tool4;
-        giatool4 *= 2;
-        document.getElementById('giaTool4').innerText = 'Giá: ' + giatool4 + 'VNĐ';
-        mpc += 1000 * boostmpc;
-        document.getElementById('mpc').innerText = 'Tiền mỗi click: ' + mpc;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaNole5() {
-    if (money >= gianole5) {
-        money -= gianole5;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        nole5++;
-        document.getElementById('soluongNole5').innerText = 'Nô lệ Khoa: ' + nole5;
-        gianole5 *= 2;
-        document.getElementById('giaNole5').innerText = "Giá: " + gianole5 + 'VNĐ';
-        mps += 10000 * boostmps;
-        document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaTool5() {
-    if (money >= giatool5) {
-        money -= giatool5;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        tool5++;
-        document.getElementById('soluongTool5').innerText = 'Lightsaber: ' + tool5;
-        giatool5 *= 2;
-        document.getElementById('giaTool5').innerText = 'Giá: ' + giatool5 + 'VNĐ';
-        mpc += 10000 * boostmpc;
-        document.getElementById('mpc').innerText = 'Tiền mỗi click: ' + mpc;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaNole6() {
-    if (money >= gianole6) {
-        money -= gianole6;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        nole6++;
-        document.getElementById('soluongNole6').innerText = 'Nô lệ Hào: ' + nole6;
-        gianole6 *= 2;
-        document.getElementById('giaNole6').innerText = "Giá: " + gianole6 + 'VNĐ';
-        mps += 100000 * boostmps;
-        document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaTool6() {
-    if (money >= giatool6) {
-        money -= giatool6;
-        document.getElementById('money').innerText = "Tiền: " + money + 'VNĐ';
-        tool6++;
-        document.getElementById('soluongTool6').innerText = 'Kiếm thánh Excalibur: ' + tool6;
-        giatool6 *= 2;
-        document.getElementById('giaTool6').innerText = 'Giá: ' + giatool6 + 'VNĐ';
-        mpc += 100000 *boostmpc ;
-        document.getElementById('mpc').innerText = 'Tiền mỗi click: ' + mpc;
-    }
-    else {
-        alert('Bạn không có đủ tiền!');
-    }
-}
-function muaChuno() {
-    if (chuno == 0) {
-        if (kimcuong >= giachuno) {
-            kimcuong -= giachuno;
-            document.getElementById('kimcuong').innerText = 'Nạp thẻ (' + kimcuong + ')';
-            chuno++;
-            document.getElementById('soluongChuno').innerText = 'Minh chủ nô: ' + chuno;
-            document.getElementById('giaChuno').innerText = 'Đã đạt số lượng tối đa!';
-            boostmps *= 2;
-            mps *= 2;
-            document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
+// Hàm gửi token
+async function sendToken(userPublicKey, amount) {
+    try {
+        // Kiểm tra Base58
+        if (!isBase58(userPublicKey)) {
+            console.error("Public key không hợp lệ:", userPublicKey);
+            throw new Error("Public key không hợp lệ. Hãy kết nối lại ví.");
         }
 
+        const toPublicKey = new solanaWeb3.PublicKey(userPublicKey);
+        console.log("Public key hợp lệ:", toPublicKey.toString());
 
-        else {
-            alert('Bạn không có đủ kim cương,có thể nạp ở nút nạp thẻ!');
-        }
-    }
-    else {
-        alert('Bạn chỉ có thể sở hữu 1 chủ nô');
+        // Ví gửi token (thay thế bằng ví thật trong môi trường production)
+        const fromWallet = solanaWeb3.Keypair.generate();
+        const transaction = new solanaWeb3.Transaction().add(
+            solanaWeb3.SystemProgram.transfer({
+                fromPubkey: fromWallet.publicKey,
+                toPubkey: toPublicKey,
+                lamports: amount * solanaWeb3.LAMPORTS_PER_SOL,  // Chuyển đổi token sang lamports
+            })
+        );
+
+        const signature = await solanaWeb3.sendAndConfirmTransaction(connection, transaction, [fromWallet]);
+        console.log("Transaction Signature:", signature);
+    } catch (error) {
+        console.error("Gửi token thất bại:", error);
+        throw error;
     }
 }
-function muaSptool() {
-    if (sptool == 0) {
-        if (kimcuong >= giasptool) {
-            kimcuong -= giasptool;
-            document.getElementById('kimcuong').innerText = 'Nạp thẻ (' + kimcuong + ')';
-            sptool++;
-            document.getElementById('soluongSptool').innerText = 'Đá mài: ' + sptool;
-            document.getElementById('giaSptool').innerText = 'Đã đạt số lượng tối đa!';
-            boostmpc *= 2;
-            mpc *= 2;
-            document.getElementById('mpc').innerText = "Tiền mỗi click: " + mpc;
-        }
 
-        else {
-            alert('Bạn không có đủ kim cương,có thể nạp ở nút nạp thẻ!');
-        }
-    }
-    else {
-        alert('Bạn chỉ có thể sở hữu 1 đá mài');
+
+// Hàm đổi vật phẩm Rare Item thành Token
+async function exchangeRareItem(index) {
+    const rareItem = rareitems[index];
+    const userPublicKey = window.solana?.publicKey?.toString();
+
+    if (!userPublicKey || userPublicKey.trim() === "" || !isBase58(userPublicKey)) {
+        console.error("Public key không hợp lệ:", userPublicKey);
+        alert("Không thể tìm thấy hoặc public key không hợp lệ. Hãy kết nối ví trước.");
+        return;
     }
 
-}
-function muaThuoc() {
-    if (thuoctien == 0) {
-        if (kimcuong >= giathuoctien) {
-            kimcuong -= giathuoctien;
-            document.getElementById('kimcuong').innerText = 'Nạp thẻ (' + kimcuong + ')';
-            thuoctien++;
-            document.getElementById('suluongThuoc').innerText = 'Tiên dược exilir: ' + thuoctien;
-            document.getElementById('giaThuoc').innerText = 'Đã đạt số lượng tối đa!';
-            mps *= 2;
-            mpc *= 2;
-            boostmps *= 2;
-            boostmpc *= 2;
-            document.getElementById('mps').innerText = "Tiền mỗi giây: " + mps;
-            document.getElementById('mpc').innerText = "Tiền mỗi click: " + mpc;
+    if (rareItem.quantity > 0) {
+        try {
+            const tokenAmount = rareItem.value; // Số lượng token đổi
+            await sendToken(userPublicKey, tokenAmount);
+            rareItem.quantity--; // Giảm số lượng rare item
+            document.getElementById(`soluong${rareItem.type}${index}`).textContent = `${rareItem.name}: ${rareItem.quantity}`;
+            alert(`Đã đổi thành công ${tokenAmount} token.`);
+        } catch (error) {
+            console.error("Đổi token thất bại:", error);
         }
-        else {
-            alert('Bạn không có đủ kim cương,có thể nạp ở nút nạp thẻ!');
-        }
-    }
-    else {
-        alert('Bạn chỉ có thể sở hữu 1 lọ tiên dược');
+    } else {
+        alert("Bạn không có vật phẩm này.");
     }
 }
+
+
+
+
+
+// Khởi tạo
+renderItems();
+renderRareItems();
+updateDisplay();
