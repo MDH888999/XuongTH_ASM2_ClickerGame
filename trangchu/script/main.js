@@ -116,20 +116,22 @@ const rareitems = [
         type: 'rareNFTmps',
         img: 'nftimg/rarenft01.avif',
         increment: 2,
-        value: 1,
+        value: 0.1,
         unit: 'Tiền mỗi giây',
         percent: 50,
-        quantity: 0
+        quantity: 0,
+        check: false
     },
     {
         name: 'Rare NFT 02',
         type: 'rareNFTmpc',
         img: 'nftimg/rarenft02.avif',
         increment: 2,
-        value: 1,
+        value: 0.1,
         unit: 'Tiền mỗi click',
         percent: 50,
-        quantity: 0
+        quantity: 0,
+        check: false
     }
 ];
 let hasRare01 = false; // Kiểm tra nếu rareNFTmps đã có trong rương
@@ -231,12 +233,16 @@ function openChest() {
         if (selectedItem.name === 'Rare NFT 01') {
             hasRare01 = true;
             rareitems[0].quantity += 1;
+            rareitems[0].check = true;
+            console.log(rareitems);
             document.getElementById(
                 `soluongrareNFTmps0`
             ).textContent = `Rare NFT 01: ${rareitems[0].quantity}`;
         } else if (selectedItem.name === 'Rare NFT 02') {
             hasRare02 = true;
-            rareitems[1].quantity += 1;
+            rareitems[1].quantity += 1
+            rareitems[1].check = true;
+            console.log(rareitems);
             document.getElementById(
                 `soluongrareNFTmpc1`
             ).textContent = `Rare NFT 02: ${rareitems[1].quantity}`;
@@ -280,14 +286,22 @@ function getRandomItem() {
 }
 
 // Hàm áp dụng tác dụng của vật phẩm
-function applyItemEffect(selectedItem) {
-    if (selectedItem.type === 'rareNFTmps') {
-        mpsMultiplier = mpsMultiplier * 2;
-    } else if (selectedItem.type === 'rareNFTmpc') {
-        mpcMultiplier = mpcMultiplier * 2;
+function applyItemEffect() {
+    if (rareitems[0].check === true) {
+        mpsMultiplier = mpsMultiplier * rareitems[0].increment;
+    }
+     if (rareitems[1].check === true) {
+        mpcMultiplier = mpcMultiplier * rareitems[1].increment;
     }
 }
-
+function removeItemEffect() {
+    if (rareitems[0].check === false) {
+        mpsMultiplier = mpsMultiplier / rareitems[0].increment;
+    }
+     if (rareitems[1].check === true) {
+        mpcMultiplier = mpcMultiplier / rareitems[1].increment;
+    }
+}
 //Hàm để xem tỉ lệ của vật phẩm
 function chanceView() {
     let message = "Tỉ lệ rơi vật phẩm trong rương:\n";
@@ -425,6 +439,8 @@ async function exchangeRareItem(index) {
             const tokenAmount = rareItem.value; // Number of tokens to transfer
             await sendReward(userPublicKeyString, tokenAmount);
             rareItem.quantity--;
+            rareItem.check = false;
+            console.log(rareItem.check);
             document.getElementById(`soluong${rareItem.type}${index}`).textContent = `${rareItem.name}: ${rareItem.quantity}`;
             alert(`Đã đổi thành công ${tokenAmount} token.`);
         } else {
@@ -443,6 +459,8 @@ async function exchangeRareItem(index) {
 
 
 // Khởi tạo
+applyItemEffect();
+removeItemEffect();
 renderItems();
 renderRareItems();
 updateDisplay();
